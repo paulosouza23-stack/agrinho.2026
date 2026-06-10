@@ -1,1 +1,95 @@
 
+// ======================
+// ACESSIBILIDADE
+// ======================
+
+let tamanhoFonte = 16;
+
+const aumentarFonte =
+document.getElementById("aumentar-fonte");
+
+const diminuirFonte =
+document.getElementById("diminuir-fonte");
+
+const altoContraste =
+document.getElementById("alto-contraste");
+
+aumentarFonte.addEventListener("click", () => {
+    tamanhoFonte += 2;
+    document.documentElement.style.setProperty(
+        "--fonte",
+        tamanhoFonte + "px"
+    );
+});
+
+diminuirFonte.addEventListener("click", () => {
+    if (tamanhoFonte > 12) {
+        tamanhoFonte -= 2;
+    }
+
+    document.documentElement.style.setProperty(
+        "--fonte",
+        tamanhoFonte + "px"
+    );
+});
+
+altoContraste.addEventListener("click", () => {
+    document.body.classList.toggle("alto-contraste");
+});
+
+// ======================
+// CALCULADORA DE ÁGUA
+// ======================
+
+const formulario =
+document.getElementById("formulario-agua");
+
+const resultado =
+document.getElementById("resultado");
+
+formulario.addEventListener("submit", function(event){
+
+    event.preventDefault();
+
+    const aguaTotal =
+    Number(document.getElementById("agua-total").value);
+
+    const aguaDesperdicada =
+    Number(document.getElementById("agua-desperdicada").value);
+
+    if(
+        aguaTotal <= 0 ||
+        aguaDesperdicada < 0 ||
+        aguaDesperdicada > aguaTotal
+    ){
+        resultado.innerHTML =
+        "Digite valores válidos.";
+        return;
+    }
+
+    const porcentagem =
+    ((aguaDesperdicada / aguaTotal) * 100).toFixed(2);
+
+    let mensagem = "";
+
+    if(porcentagem < 20){
+        mensagem =
+        "Parabéns! O desperdício está baixo. Continue economizando água.";
+    }
+    else if(porcentagem < 50){
+        mensagem =
+        "Atenção! É possível reduzir ainda mais o desperdício.";
+    }
+    else{
+        mensagem =
+        "Alerta! O desperdício está muito alto. É importante mudar hábitos imediatamente.";
+    }
+
+    resultado.innerHTML =
+    `
+    <p>
+    Desperdício: <strong>${porcentagem}%</strong><br>
+    ${mensagem}
+    </p>
+    `;
+});
